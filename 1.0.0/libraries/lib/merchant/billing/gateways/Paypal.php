@@ -162,7 +162,7 @@ class Merchant_Billing_Paypal extends Merchant_Billing_PaypalCommon {
    * @param array $options
    */
   private function add_address($options) {
-    $billing_address = isset($options['billing_address']) ? $options['billing_address'] : $options['address'];
+    $billing_address = isset($options['billing_address']) ? $options['billing_address'] : null;
     $this->post['STREET']       = isset($billing_address['address1']) ? $billing_address['address1'] : null;
     $this->post['CITY']         = isset($billing_address['city']) ? $billing_address['city'] : null;
     $this->post['STATE']        = isset($billing_address['state']) ? $billing_address['state'] : null;
@@ -183,7 +183,7 @@ class Merchant_Billing_Paypal extends Merchant_Billing_PaypalCommon {
     $this->post['CVV2']           = $creditcard->verification_value;
     $this->post['FIRSTNAME']      = $creditcard->first_name;
     $this->post['LASTNAME']       = $creditcard->last_name;
-    $this->post['CURRENCYCODE']   = self::default_currency;
+    $this->post['CURRENCYCODE']   = self::$default_currency;
 
   }
 

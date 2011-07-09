@@ -7,6 +7,13 @@ $config['authorizenet']	=
 		'password'		=>	'9m9X2z777w8hEW27',
 	);
 
+//Bogus
+$config['bogus'] =
+	array(
+		'login'	=> '',
+		'password'	=> ''
+	);
+	
 //Centinel
 $config['centinel']	=
 	array(
@@ -23,9 +30,9 @@ $config['eurobank']	=
 	);
 
 //HSBC
-$config['hsbc']	=
+$config['HsbcSecureEpayments']	=
 	array(
-		'login'			=>	'',
+		'login'			=>	'calvinfroedge@gmail.com',
 		'password'		=>	'',
 		'client_id'		=>	'',
 		'currency'		=>	'EUR'
@@ -50,7 +57,7 @@ $config['paypalexpress']	=
 	);	
 	
 //Piraeus
-$config['piraeus']	=
+$config['piraeuspaycenter']	=
 	array(
 		'acquire_id'	=>	'',
 		'merchant_id'	=>	'',

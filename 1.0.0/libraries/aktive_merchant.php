@@ -39,13 +39,16 @@ class Aktive_merchant
 	* @param	array	Info for credit card
 	* @param	array	Options for the transaction
 	*/	
-    public function try_payment($gateway, $amount, $gateway_function, $cc_info, $options)
+    public function try_payment($gateway, $amount, $gateway_function, $cc_info, $options = array())
     { 	
 
 	
     	if($this->_check_gateway_exists($gateway))
     	{	
-    		$this->_set_options($options);
+    		if(count($options) > 0)
+    		{
+    			$this->_set_options($options);
+    		}
     		$this->_cc = new Merchant_Billing_CreditCard($cc_info);
     		try
     		{
