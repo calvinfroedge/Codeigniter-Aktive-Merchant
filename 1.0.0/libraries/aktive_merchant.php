@@ -34,12 +34,12 @@ class Aktive_merchant
 	}
 	
 	/**
-	* The CodeIgniter Instance
+	* Try to do a payment
 	* @param	string	The name of the gateway to call
 	* @param	array	Info for credit card
 	* @param	array	Options for the transaction
 	*/	
-    public function try_payment($gateway, $cc_info, $options)
+    public function try_payment($gateway, $amount, $gateway_function, $cc_info, $options)
     { 	
     	if($this->_check_gateway_exists($gateway))
     	{	
@@ -53,7 +53,7 @@ class Aktive_merchant
 	    		}
 	    		else
 	    		{
-	    			$response = $this->_gateway->purchase("0.01", $this->_cc, $this->_options);
+	    			$response = $this->_gateway->$gateway_function($amount, $this->_cc, $this->_options);
 	    			$response = $response->message();
 	    		}
 	    	}
@@ -71,10 +71,11 @@ class Aktive_merchant
     }
 
 	/**
-	* Check to ensure 
+	* Check to ensure payment gateway exists
 	* @param	string	The name of the gateway to call
 	* @param	array	Info for credit card
 	* @param	array	Options for the transaction
+	* @return 	bool
 	*/	    
     private function _check_gateway_exists($gateway)
     {
@@ -94,6 +95,11 @@ class Aktive_merchant
     	return $response;
     }
     
+	/**
+	* Initialize the gateway
+	* @param	string	The name of the gateway to call
+	* @return	void
+	*/	    
     private function _init_gateway($gateway)
     {
     	$config_array = array();
@@ -101,20 +107,19 @@ class Aktive_merchant
     	{
     		$config_array[$key] = $value;
     	}
-    	$this->_gateway = Merchant_Billing_Base::gateway($gateway, $config_array); 
+    	
+    	$call = 'Merchant_Billing_'.$gateway;
+    	
+    	$this->_gateway = new $call($config_array); 
     }
-    
+ 
+ 	/**
+	* Set options to the gateway object from user input
+	* @param	string	The name of the gateway to call
+	*/	   
     private function _set_options($options)
     {
-    	$gatway_options = array();
-    	
-    	foreach($options as $key=>$value)
-    	{
-    		$gatway_options[$key] = $value;
-    	}
-    	
-		$gateway_options['order_id'] = 'Ref' . $this->_gateway->generate_unique_id();
-		
-		$this->_options = $gateway_options;    
+		$options['order_id'] = 'Ref' . $this->_gateway->generate_unique_id();	
+		$this->_options = $options;    
     }
 }
