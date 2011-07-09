@@ -41,9 +41,11 @@ class Aktive_merchant
 	*/	
     public function try_payment($gateway, $amount, $gateway_function, $cc_info, $options)
     { 	
+
+	
     	if($this->_check_gateway_exists($gateway))
     	{	
-    		$this->_options = $this->_set_options($options);
+    		$this->_set_options($options);
     		$this->_cc = new Merchant_Billing_CreditCard($cc_info);
     		try
     		{
@@ -53,7 +55,7 @@ class Aktive_merchant
 	    		}
 	    		else
 	    		{
-	    			$response = $this->_gateway->$gateway_function($amount, $this->_cc, $this->_options);
+	    			$response = $this->_gateway->$gateway_function($amount, $this->_cc, $options);
 	    			$response = $response->message();
 	    		}
 	    	}
